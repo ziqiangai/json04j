@@ -16,7 +16,7 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
     private static ObjectMapper MAPPER = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
-        File file = FileUtils.getFile("E:\\json\\text0\\transformComponent");
+        File file = FileUtils.getFile("E:\\json\\json0\\transformComponent");
         System.out.println("Hello World");
         File[] files = file.listFiles();
         ArrayNode arr = MAPPER.createArrayNode();
@@ -38,7 +38,7 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
     private static void flush(ArrayNode arr, int fileChunk) throws IOException {
         System.out.println("json size " + arr.size());
         FileUtils.write(
-                FileUtils.getFile("E:\\code\\json04j\\src\\test\\resources\\text0\\transformComponent\\testDataChunk_" + fileChunk + ".json"),
+                FileUtils.getFile("E:\\code\\json04j\\src\\test\\resources\\json0\\transformComponent\\testDataChunk_" + fileChunk + ".json"),
                 arr.toString(),
                 Charsets.UTF_8
         );

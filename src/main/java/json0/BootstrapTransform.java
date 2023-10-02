@@ -76,7 +76,7 @@ public interface BootstrapTransform<T extends Operation> {
 
     }
 
-    void append(List<T> newRightOp, T rightComponent);
+    void append(List<T> dest, T c) throws Json0Exception;
 
     List<T> compose(List<T> op1, List<T> op2) throws Json0Exception;
 
