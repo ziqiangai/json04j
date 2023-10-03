@@ -62,4 +62,7 @@ Modify the parameter values after decompressing it locally.
 
 https://github.com/ziqiangai/json04j/blob/9a42148dbc6c7434f6c40b8bf86336ce01e8a147/src/test/java/json0/Const.java#L5
 
+## Reference
 
+[json0](https://github.com/ottypes/json0)
+[APITable](https://github.com/apitable/apitable)
