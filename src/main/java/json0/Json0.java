@@ -49,7 +49,11 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
                         List<Text0Operation> cos = new ArrayList<>();
                         cos.add(lastOp);
                         c.o = cos;
-                        c.p = p.subList(0, p.size());
+                        List<Object> tmp = new ArrayList<>();
+                        for (int j = 0; j < p.size(); j++) {
+                            tmp.add(p.get(j));
+                        }
+                        c.p = tmp;
                         convertToText(c);
                         dest.add(c);
                     }
@@ -116,7 +120,10 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
     @Override
     public List<Json0Operation> invert(List<Json0Operation> c) {
         List<Json0Operation> iop = new ArrayList<>();
-        List<Json0Operation> op_ = c.subList(0, c.size());
+        List<Json0Operation> op_ = new ArrayList<>();
+        for (int i = 0; i < c.size(); i++) {
+            op_.add(c.get(i));
+        }
         for (int i = op_.size() - 1; i >= 0; i--) {
             iop.add(this.invertComponent(op_.get(i)));
         }
@@ -157,13 +164,21 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
         ) {
             if (c.ld != null) {
                 Json0Operation oc = otherC.clone();
-                oc.p = oc.p.subList(cplength, oc.p.size());
+                List<Object> tmp = new ArrayList<>();
+                for (int i = cplength; i < oc.p.size(); i++) {
+                    tmp.add(oc.p.get(i));
+                }
+                oc.p = tmp;
                 ArrayList<Json0Operation> ops = new ArrayList<>();
                 ops.add(oc);
                 c.ld = this.apply(c.ld.deepCopy(), ops);
             } else if (c.od != null) {
                 Json0Operation oc = otherC.clone();
-                oc.p = oc.p.subList(cplength, oc.p.size());
+                List<Object> tmp = new ArrayList<>();
+                for (int i = cplength; i < oc.p.size(); i++) {
+                    tmp.add(oc.p.get(i));
+                }
+                oc.p = tmp;
                 ArrayList<Json0Operation> ops = new ArrayList<>();
                 ops.add(oc);
                 c.od = this.apply(c.od.deepCopy(), ops);
@@ -187,11 +202,13 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
 
                     if (c.si != null || c.sd != null) {
                         List<Object> p = c.p;
-
                         for (int i = 0; i < res.size(); i++) {
                             c.o = new ArrayList<>();
                             c.o.add(res.get(i));
-                            c.p = p.subList(0, p.size());
+                            c.p = new ArrayList<>();
+                            for (int k = 0; k < p.size(); k++) {
+                                c.p.add(p.get(k));
+                            }
                             convertToText(c);
                             this.append(dest, c);
                         }
@@ -361,7 +378,7 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
                 )) {
                     if (c.oi != null && commonOperand) {
                         // we inserted where someone else replaced
-                        if ("'right'".equals(type)) {
+                        if ("right".equals(type)) {
                             // left wins
                             return dest;
                         } else {
@@ -525,6 +542,11 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
         return container.path("data");
     }
 
+    @Override
+    public String getName() {
+        return "json0";
+    }
+
     public static void splice(ArrayNode array, int startIndex, int deleteCount, JsonNode... elements) {
         for (int i = 0; i < deleteCount; i++) {
             array.remove(startIndex);
@@ -585,7 +607,7 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
     private void convertFromText(Json0Operation c) {
         c.t = "text0";
         Text0Operation o = new Text0Operation();
-        Object lastP = c.p.remove(c.p.size() - 1);
+        Object lastP = (c.p == null || c.p.isEmpty()) ? null : c.p.remove(c.p.size() - 1);
         if (lastP instanceof Integer) {
             o.p = (Integer) lastP;
         }
@@ -664,7 +686,11 @@ public class Json0 implements BootstrapTransform<Json0Operation> {
         }
         if (c.lm != null) {
             c_.lm = c.p.get(c.p.size() - 1);
-            List<Object> objects = c.p.subList(0, c.p.size() - 1);
+            List<Object> objects = new ArrayList<>();
+            for (int i = 0; i < c.p.size() - 1; i++) {
+                objects.add(c.p.get(i));
+            }
+
             objects.add(c.lm);
             c_.p = objects;
         }

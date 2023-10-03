@@ -10,7 +10,7 @@ public interface BootstrapTransform<T extends Operation> {
 
     default void transformComponentX(T left, T right, List<T> destLeft, List<T> destRight) throws Json0Exception {
         transformComponent(destLeft, left, right, "left");
-        transformComponent(destRight, right, left, "left");
+        transformComponent(destRight, right, left, "right");
     }
 
     default List<List<T>> transformX(List<T> leftOp, List<T> rightOp) throws Json0Exception {
@@ -35,7 +35,11 @@ public interface BootstrapTransform<T extends Operation> {
                     rightComponent = null;
                     break;
                 }else {
-                    List<List<T>> pair = transformX(leftOp.subList(k, leftOp.size()), nextC);
+                    List<T> lop = new ArrayList<>();
+                    for (int lo = k; lo < leftOp.size(); lo++) {
+                        lop.add(leftOp.get(lo));
+                    }
+                    List<List<T>> pair = transformX(lop, nextC);
                     for (int l = 0; l < pair.get(0).size(); l++) {
                         append(newLeftOp, pair.get(0).get(l));
                     }
@@ -87,4 +91,6 @@ public interface BootstrapTransform<T extends Operation> {
     List<T> transformComponent(List<T> dest, T c, T otherC, String side) throws Json0Exception;
 
     JsonNode apply(JsonNode snapshot, List<T> op) throws Json0Exception;
+
+    String getName();
 }

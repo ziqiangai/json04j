@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static json0.Const.TEST_JSON_LOCATION;
 import static org.junit.Assert.*;
 
 public class Text0Test {
@@ -23,39 +24,8 @@ public class Text0Test {
     };
 
     @Test
-    public void append() throws JsonProcessingException {
-        System.out.println("hello WOrld");
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode a = mapper.createObjectNode();
-        a.put("a",
-                        mapper.createObjectNode()
-                                .put("a", 12)
-                                .put("b", 15)
-                );
-        ObjectNode b = mapper.createObjectNode();
-        b.put("a",
-                        mapper.createObjectNode()
-                                .put("b", 15)
-                                .put("a", 12)
-                );
-        ObjectNode c = mapper.createObjectNode();
-        c.put("a",
-                        mapper.createObjectNode()
-                                .put("b", 15)
-                                .put("a", 28)
-                );
-        assertEquals(a, b);
-        assertNotEquals(a, c);
-        JsonNode p = mapper.readTree("[{\"i\":\"T\",\"p\":1749},{\"d\":\"slithy \",\"p\":13291}]");
-        JsonNode q = mapper.readTree("[{\"p\":1749,\"i\":\"T\"},{\"p\":13291,\"d\":\"slithy \"}]");
-
-        assertEquals(p, q);
-    }
-
-    @Test
     public void testInvert(){
-        String folder = "E:\\code\\json04j\\src\\test\\resources\\text0\\invert";
-        File file = FileUtils.getFile(folder);
+        File file = FileUtils.getFile(TEST_JSON_LOCATION, "text0", "invert");
         File[] files = file.listFiles();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -87,8 +57,7 @@ public class Text0Test {
 
     @Test
     public void testCompose(){
-        String folder = "E:\\code\\json04j\\src\\test\\resources\\text0\\compose";
-        File file = FileUtils.getFile(folder);
+        File file = FileUtils.getFile(TEST_JSON_LOCATION, "text0", "compose");
         File[] files = file.listFiles();
         int i = 0;
         for (File tmp : files) {
@@ -110,8 +79,7 @@ public class Text0Test {
 
     @Test
     public void testTransformComponent(){
-        String folder = "E:\\code\\json04j\\src\\test\\resources\\text0\\transformComponent";
-        File file = FileUtils.getFile(folder);
+        File file = FileUtils.getFile(TEST_JSON_LOCATION, "text0", "transformComponent");
         File[] files = file.listFiles();
         int i = 0;
         for (File tmp : files) {
@@ -133,8 +101,7 @@ public class Text0Test {
 
     @Test
     public void testApply(){
-        String folder = "E:\\code\\json04j\\src\\test\\resources\\text0\\apply";
-        File file = FileUtils.getFile(folder);
+        File file = FileUtils.getFile(TEST_JSON_LOCATION, "text0", "apply");
         File[] files = file.listFiles();
         int i = 0;
         for (File tmp : files) {

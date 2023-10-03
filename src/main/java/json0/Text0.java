@@ -16,7 +16,7 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
     private static ObjectMapper MAPPER = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
-        File file = FileUtils.getFile("E:\\json\\json0\\transformComponent");
+        File file = FileUtils.getFile("E:\\json\\json0\\transformX");
         System.out.println("Hello World");
         File[] files = file.listFiles();
         ArrayNode arr = MAPPER.createArrayNode();
@@ -38,7 +38,7 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
     private static void flush(ArrayNode arr, int fileChunk) throws IOException {
         System.out.println("json size " + arr.size());
         FileUtils.write(
-                FileUtils.getFile("E:\\code\\json04j\\src\\test\\resources\\json0\\transformComponent\\testDataChunk_" + fileChunk + ".json"),
+                FileUtils.getFile("E:\\code\\json04j\\src\\test\\resources\\json0\\transformX\\testDataChunk_" + fileChunk + ".json"),
                 arr.toString(),
                 Charsets.UTF_8
         );
@@ -72,7 +72,10 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
     public List<Text0Operation> compose(List<Text0Operation> op1, List<Text0Operation> op2) throws Json0Exception {
         checkValidOp(op1);
         checkValidOp(op2);
-        List<Text0Operation> newOp = op1.subList(0, op1.size());
+        List<Text0Operation> newOp = new ArrayList<>();
+        for (int i = 0; i < op1.size(); i++) {
+            newOp.add(op1.get(i));
+        }
         for (int i = 0; i < op2.size(); i++) {
             append(newOp, op2.get(i));
         }
@@ -81,7 +84,10 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
 
     @Override
     public List<Text0Operation> invert(List<Text0Operation> op) {
-        List<Text0Operation> newList = op.subList(0, op.size());
+        List<Text0Operation> newList = new ArrayList<>();
+        for (int i = 0; i < op.size(); i++) {
+            newList.add(op.get(i));
+        }
         List<Text0Operation> result = new ArrayList<>(op.size());
         for (int i = newList.size() - 1; i >= 0; i--) {
             result.add(invertComponent(newList.get(i)));
@@ -204,6 +210,11 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
             }
         }
         return TextNode.valueOf(content);
+    }
+
+    @Override
+    public String getName() {
+        return "text0";
     }
 
     private String strInject(String s1, int pos, String s2) {
