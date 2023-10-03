@@ -2,6 +2,24 @@
 
 This is the java implementation of [json0](https://github.com/ottypes/json0) based on Jackson.
 
+
+## How to use
+
+import in your `pom.xml`
+
+```xml
+<dependency>
+  <groupId>io.github.ziqiangai</groupId>
+  <artifactId>json0</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
+
+You can find how to use it in unit tests:
+
+https://github.com/ziqiangai/json04j/blob/bcb1fdb4a0eb385237e38d3afab7bdd25cf62130/src/test/java/json0/Json0Test.java#L255-L265
+
+
 There are complete tests.(No statistics on serialization time)
 
 | Module | Function           | Test Count | Test Time |
