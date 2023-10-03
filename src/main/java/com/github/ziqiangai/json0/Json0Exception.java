@@ -1,4 +1,4 @@
-package json0;
+package com.github.ziqiangai.json0;
 
 public class Json0Exception extends Exception {
     public Json0Exception(String msg) {
