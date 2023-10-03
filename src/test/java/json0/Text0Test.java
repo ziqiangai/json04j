@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import com.github.ziqiangai.json0.Json0Exception;
-import com.github.ziqiangai.json0.Text0;
-import com.github.ziqiangai.json0.Text0Operation;
+import io.github.ziqiangai.json0.Json0Exception;
+import io.github.ziqiangai.json0.Text0;
+import io.github.ziqiangai.json0.Text0Operation;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package json0;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.ziqiangai.json0.*;
+import io.github.ziqiangai.json0.*;
 
 import java.util.Arrays;
 import java.util.List;

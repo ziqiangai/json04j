@@ -1,4 +1,4 @@
-package com.github.ziqiangai.json0;
+package io.github.ziqiangai.json0;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
