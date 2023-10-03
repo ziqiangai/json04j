@@ -195,21 +195,21 @@ public class Text0 implements BootstrapTransform<Text0Operation>{
             throw new Json0Exception("text0 operations cannot be applied to type: " + snapshot.getNodeType().toString());
         }
         checkValidOp(op);
-        String content = snapshot.asText();
+        StringBuilder sb = new StringBuilder(snapshot.asText());
         for (int i = 0; i < op.size(); i++) {
             Text0Operation component = op.get(i);
             if (component.i != null) {
-                content = strInject(content, component.p, component.i);
+                sb.insert(component.p, component.i);
             } else {
-                String deleted = content.substring(component.p, component.p + component.d.length());
+                int len = component.d.length();
+                String deleted = sb.substring(component.p, component.p + len);
                 if (!component.d.equals(deleted)) {
                     throw new Json0Exception("Delete component '" + component.d + "' does not match deleted text '" + deleted + "'");
                 }
-
-                content = content.substring(0, component.p) + content.substring(component.p + component.d.length());
+                sb.delete(component.p, component.p + len);
             }
         }
-        return TextNode.valueOf(content);
+        return new TextNode(sb.toString());
     }
 
     @Override

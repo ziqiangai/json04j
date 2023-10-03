@@ -65,7 +65,7 @@ public class Json0Test {
                     if (args != null) {
                         long now = System.currentTimeMillis();
                         ex.execute(json0, args);
-                        take += System.currentTimeMillis() - now;
+                        take += (System.currentTimeMillis() - now);
                         testCount++;
                     }
                 }
