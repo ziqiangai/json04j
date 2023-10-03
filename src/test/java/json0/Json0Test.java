@@ -6,24 +6,79 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static json0.Const.TEST_JSON_LOCATION;
 import static org.junit.Assert.*;
 
 public class Json0Test {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    public static final ObjectMapper mapper = new ObjectMapper();
 
-    private static final TypeReference<List<Json0Operation>> json0Type = new TypeReference<List<Json0Operation>>() {
+    public static final TypeReference<List<Json0Operation>> json0Type = new TypeReference<List<Json0Operation>>() {
     };
 
-    private static final TypeReference<List<Text0Operation>> text0Type = new TypeReference<List<Text0Operation>>() {
+    public static final TypeReference<List<Text0Operation>> text0Type = new TypeReference<List<Text0Operation>>() {
     };
+
+
+    @Test
+    public void benchmark() {
+        List<String[]> data = new ArrayList<>();
+        doBenchmark(data, "json0", "invert");
+        doBenchmark(data, "json0", "compose");
+        doBenchmark(data, "json0", "apply");
+        doBenchmark(data, "json0", "transformComponent");
+        doBenchmark(data, "json0", "transformX");
+        doBenchmark(data, "json0", "text0", "transformX");
+        doBenchmark(data, "text0", "invert");
+        doBenchmark(data, "text0", "compose");
+        doBenchmark(data, "text0", "transformComponent");
+        doBenchmark(data, "text0", "apply");
+
+        PrintTable.printTable(data);
+    }
+
+    public void doBenchmark(List<String[]> data, String module, String name, String method) {
+        TestMethod ex = TestMethod.getInstance(module, name, method);
+        File file = FileUtils.getFile(TEST_JSON_LOCATION, module, method);
+        File[] files = file.listFiles();
+        ObjectMapper mapper = new ObjectMapper();
+
+        BootstrapTransform json0 = ex.getBoot();
+        int testCount = 0;
+        long take = 0;
+        for (File tmp : files) {
+            try {
+                JsonNode jsonNode = mapper.readTree(tmp);
+                assertEquals(jsonNode.getNodeType(), JsonNodeType.ARRAY);
+                ArrayNode arr = (ArrayNode) jsonNode;
+                for (JsonNode node : arr) {
+                    List<Object> args = ex.parserArgs(node);
+                    if (args != null) {
+                        long now = System.currentTimeMillis();
+                        ex.execute(json0, args);
+                        take += System.currentTimeMillis() - now;
+                        testCount++;
+                    }
+                }
+            } catch (IOException | Json0Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        data.add(new String[]{name, method, testCount + "", take + " ms"});
+    }
+
+    public void doBenchmark(List<String[]> data, String module, String method) {
+        doBenchmark(data, module, module, method);
+    }
 
     @Test
     public void testInvert() {
