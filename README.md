@@ -1,6 +1,6 @@
 # json04j
 
-This is the java implementation of [json0](https://github.com/ottypes/json0).
+This is the java implementation of [json0](https://github.com/ottypes/json0) based on Jackson.
 
 There are complete tests.(No statistics on serialization time)
 
@@ -33,3 +33,15 @@ Test results of js under the same amount of data:
 | text0  | compose            | 22907      | 18   ms   |
 | text0  | transformComponent | 251335     | 118  ms   |
 | text0  | apply              | 125208     | 254  ms   |
+
+
+## How to test?
+
+Collect the test data of the original [json0](https://github.com/ottypes/json0) lib for testing.
+Because the file to be tested is large,
+you can click here to [download it](https://github.com/ziqiangai/json04j/releases/download/v1.1.0-beta/resources.zip).
+Modify the parameter values after decompressing it locally.
+
+https://github.com/Exclamation-mark/json04j/blob/d8dd8c0cc30e0a788d53aa7daff5eacc1dadd5bf/src/test/java/json0/Const.java#L5
+
+
